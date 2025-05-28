@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.URL?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #2e2e2e;" styleClass="mainFxmlClass" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/23.0.1" fx:controller="Controllers.EditarPerfilController">
+    <stylesheets>
+        <URL value="@/resources/estilos.css" />
+    </stylesheets>
+   <children>
+      <Label layoutY="14.0" prefHeight="27.0" prefWidth="601.0" style="-fx-background-color: #f3ff00;" text="Editar Perfil" textFill="WHITE">
+         <font>
+            <Font name="Berlin Sans FB Demi Bold" size="24.0" />
+         </font>
+      </Label>
+      <Text fill="WHITE" layoutY="70.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Modifica los datos deseados ">
+         <font>
+            <Font name="Arial Nova Bold" size="18.0" />
+         </font>
+      </Text>
+      <GridPane hgap="10.0" layoutX="90.0" layoutY="100.0" prefHeight="208.0" prefWidth="244.0" vgap="15.0">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="137.0" minWidth="10.0" prefWidth="114.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="200.0" minWidth="10.0" prefWidth="100.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <Label text="Nickname" textFill="WHITE" />
+            <Label text="Contraseña" textFill="WHITE" GridPane.rowIndex="1" />
+            <Label text="Correo electronico" textFill="WHITE" GridPane.rowIndex="2" />
+            <Label text="Fecha de nacimiento" textFill="WHITE" GridPane.rowIndex="3" />
+            <Label text="Imagen(opcional)" textFill="WHITE" GridPane.rowIndex="4" />
+            <TextField GridPane.columnIndex="1" />
+            <PasswordField GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <TextField GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <TextField GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <Button mnemonicParsing="false" prefHeight="500.0" prefWidth="250.0" text="Insertar imagen" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+         </children>
+      </GridPane>
+      <HBox layoutX="266.0" layoutY="331.0" prefHeight="47.0" prefWidth="157.0" spacing="15.0">
+         <children>
+            <Button mnemonicParsing="false" text="Actualizar" />
+            <Button mnemonicParsing="false" text="Cancelar" />
+         </children>
+      </HBox>
+   </children>
+</AnchorPane>
