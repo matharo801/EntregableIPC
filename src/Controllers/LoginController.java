@@ -4,6 +4,7 @@
  */
 package Controllers;
 
+import java.io.IOException;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.Scene;
@@ -21,10 +22,6 @@ public class LoginController {
 
     @FXML
     private Label lblMensaje;
-    
-    private Button iniciarSesion;
-    
-    private Button registrarse;
 
     @FXML
     public void iniciarSesion() {
@@ -53,7 +50,7 @@ public class LoginController {
             Parent root = FXMLLoader.load(getClass().getResource("/view/Registrarse.fxml"));
             Stage stage = (Stage) txtUsuario.getScene().getWindow();
             stage.setScene(new Scene(root));
-        } catch (Exception e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
