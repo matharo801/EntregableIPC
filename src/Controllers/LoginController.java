@@ -2,15 +2,21 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/javafx/FXMLController.java to edit this template
  */
-package Controllers;
+package controllers;
 
-import java.io.IOException;
+import Database.DBConnection;
 import javafx.fxml.FXML;
-import javafx.scene.control.*;
-import javafx.scene.Scene;
-import javafx.stage.Stage;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.*;
+import javafx.stage.Stage;
+
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 public class LoginController {
 
@@ -24,35 +30,86 @@ public class LoginController {
     private Label lblMensaje;
 
     @FXML
+    private Button iniciarSesion;
+
+    @FXML
+    private Button registrarse;
+
+    @FXML
     public void iniciarSesion() {
         String user = txtUsuario.getText().trim();
         String pass = txtContrasena.getText();
 
         if (user.isEmpty() || pass.isEmpty()) {
-            lblMensaje.setText("Completa todos los campos.");
+            mostrarMensaje("Completa todos los campos.");
             return;
         }
 
         if (usuarioValido(user, pass)) {
-            lblMensaje.setText("Acceso concedido.");
+            mostrarMensaje("Acceso concedido.");
+            cargarVentanaMain();  // Ir a Main.fxml
         } else {
-            lblMensaje.setText("Usuario o contraseña incorrectos.");
+            mostrarMensaje("Usuario o contraseña incorrectos.");
+        }
+    }
+
+    @FXML
+    public void registrarse() {
+        try {
+            Parent root = FXMLLoader.load(getClass().getResource("/views/Registrarse.fxml"));
+            Stage stage = (Stage) registrarse.getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.setTitle("Registro de Usuario");
+        } catch (IOException e) {
+            e.printStackTrace();
+            mostrarMensaje("Error al cargar la ventana de registro.");
         }
     }
 
     private boolean usuarioValido(String user, String pass) {
-        // Simulación de validación con BD
-        return user.equals("jpgarcia") && pass.equals("passPER21!");
-    }
-    
-    public void registrarse() {
-        try {
-            Parent root = FXMLLoader.load(getClass().getResource("/view/Registrarse.fxml"));
-            Stage stage = (Stage) txtUsuario.getScene().getWindow();
-            stage.setScene(new Scene(root));
-        } catch (IOException e) {
+        String query = "SELECT * FROM usuarios WHERE nombre_usuario = ? AND contrasena = ?";
+
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+
+            stmt.setString(1, user);
+            stmt.setString(2, pass);
+
+            ResultSet rs = stmt.executeQuery();
+            return rs.next(); // true si hay coincidencia
+
+        } catch (SQLException e) {
             e.printStackTrace();
+            showAlert("Error de conexión", "No se pudo acceder a la base de datos.");
+            return false;
         }
     }
-}
 
+    /**
+     * Carga la pantalla principal de la aplicación (Main.fxml)
+     */
+    private void cargarVentanaMain() {
+        try {
+            Parent root = FXMLLoader.load(getClass().getResource("/views/Main.fxml"));
+            Stage stage = (Stage) iniciarSesion.getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.setTitle("Aplicación Principal");
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            mostrarMensaje("No se pudo cargar la aplicación general.");
+        }
+    }
+
+    private void mostrarMensaje(String mensaje) {
+        lblMensaje.setText(mensaje);
+    }
+
+    private void showAlert(String titulo, String contenido) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle(titulo);
+        alert.setHeaderText(null);
+        alert.setContentText(contenido);
+        alert.showAndWait();
+    }
+}
