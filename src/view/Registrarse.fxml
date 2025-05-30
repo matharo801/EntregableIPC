@@ -18,7 +18,7 @@
         <URL value="@/resources/estilos.css" />
     </stylesheets>
    <children>
-      <Label alignment="TOP_LEFT" prefHeight="40.0" prefWidth="600.0" style="-fx-background-color: #f3ff00;" text="Registrarse" textFill="WHITE">
+      <Label fx:id="statusLabel" alignment="TOP_LEFT" prefHeight="40.0" prefWidth="600.0" style="-fx-background-color: #f3ff00;" text="Registrarse" textFill="WHITE">
          <font>
             <Font name="Arial Black" size="24.0" />
          </font>
@@ -46,11 +46,11 @@
             <Label layoutX="10.0" layoutY="17.0" text="Correo electronico" textFill="WHITE" GridPane.rowIndex="2" />
             <Label layoutX="10.0" layoutY="17.0" text="Fecha de nacimiento" textFill="WHITE" GridPane.rowIndex="3" />
             <Label text="Imagen(opcional)" textFill="WHITE" GridPane.rowIndex="4" />
-            <TextField fx:id="usernameField" GridPane.columnIndex="1" />
-            <PasswordField fx:id="passwordField" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-            <TextField fx:id="emailField" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-            <TextField fx:id="birthDatePicker" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-            <Button fx:id="avatarImageView" mnemonicParsing="false" onAction="#handleChooseAvatar" prefHeight="25.0" prefWidth="114.0" style="-fx-background-color: #f3ff00;" text="Insertar imagen" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+            <TextField fx:id="usernameField" onAction="#validarUsername" GridPane.columnIndex="1" />
+            <PasswordField fx:id="passwordField" onAction="#validarPassword" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <TextField fx:id="emailField" onAction="#validarEmail" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <TextField fx:id="birthDatePicker" onAction="#esMayorDeEdad" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <Button fx:id="avatarImageView" mnemonicParsing="false" onAction="#insertarImagen" prefHeight="25.0" prefWidth="114.0" style="-fx-background-color: #f3ff00;" text="Insertar imagen" GridPane.columnIndex="1" GridPane.rowIndex="4" />
          </children>
       </GridPane>
       <HBox layoutX="308.0" layoutY="330.0" prefHeight="40.0" prefWidth="190.0" spacing="20.0">

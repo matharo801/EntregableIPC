@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" styleClass="mainFxmlClass" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/23.0.1" fx:controller="Controllers.PrincipalController">
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.PrincipalController">
     <stylesheets>
         <URL value="@/resources/estilos.css" />
     </stylesheets>
@@ -20,7 +20,7 @@
                </font>
             </Label>
             <Button fx:id="btnIniciarSesion" mnemonicParsing="false" onAction="#iniciarSesion" text="Iniciar Sesion" />
-            <Button fx:id="btnRealizarProblema" mnemonicParsing="false" onAction="#realizarProblema" text="Realizar Problema" />
+            <Button fx:id="btnRealizarProblema" mnemonicParsing="false" onAction="#iniciarSesion" text="Realizar Problema" />
             <Button fx:id="btnModificarPerfil" mnemonicParsing="false" onAction="#modificarPerfil" text="Modificar Perfil" />
             <Button fx:id="btnMostrarResultados" mnemonicParsing="false" onAction="#mostrarResultados" text="Mostrar Resultados" />
             <Button fx:id="btnCerrarSesion" mnemonicParsing="false" onAction="#cerrarSesion" text="Cerrar sesion" />

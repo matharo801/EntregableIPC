@@ -13,7 +13,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #2e2e2e;" styleClass="mainFxmlClass" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/23.0.1" fx:controller="Controllers.LoginController">
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #2e2e2e;" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.LoginController">
     <stylesheets>
         <URL value="@/resources/estilos.css" />
     </stylesheets>
@@ -32,19 +32,19 @@
                <children>
                   <Label text="Nickname" textFill="WHITE" />
                   <Label text="Contraseña" textFill="WHITE" GridPane.rowIndex="1" />
-                  <TextField GridPane.columnIndex="1" />
-                  <PasswordField GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                  <TextField fx:id="txtUsuario" GridPane.columnIndex="1" />
+                  <PasswordField fx:id="txtContraseña" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                </children>
             </GridPane>
          </children>
       </VBox>
       <HBox layoutX="210.0" layoutY="200.0" spacing="20.0">
          <children>
-            <Button mnemonicParsing="false" text="Iniciar Sesion" />
-            <Button layoutX="10.0" layoutY="10.0" mnemonicParsing="false" text="Registrarse" />
+            <Button fx:id="iniciarSesion" mnemonicParsing="false" onAction="#iniciarSesion" text="Iniciar Sesion" />
+            <Button fx:id="Registrarse" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#registrarse" text="Registrarse" />
          </children>
       </HBox>
-      <Label prefHeight="35.0" prefWidth="600.0" style="-fx-background-color: #dfff00;" text="Iniciar Sesion" textFill="WHITE">
+      <Label fx:id="lblMensaje" prefHeight="35.0" prefWidth="600.0" style="-fx-background-color: #dfff00;" text="Iniciar Sesion" textFill="WHITE">
          <font>
             <Font name="System Bold" size="24.0" />
          </font>
