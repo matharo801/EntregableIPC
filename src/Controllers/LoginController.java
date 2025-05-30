@@ -66,6 +66,7 @@ public class LoginController {
         }
     }
 
+   
     private boolean usuarioValido(String user, String pass) {
         String query = "SELECT * FROM usuarios WHERE nombre_usuario = ? AND contrasena = ?";
 
@@ -88,9 +89,10 @@ public class LoginController {
     /**
      * Carga la pantalla principal de la aplicación (Main.fxml)
      */
+    @FXML
     private void cargarVentanaMain() {
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("/views/Main.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("/view/Main.fxml"));
             Stage stage = (Stage) iniciarSesion.getScene().getWindow();
             stage.setScene(new Scene(root));
             stage.setTitle("Aplicación Principal");
