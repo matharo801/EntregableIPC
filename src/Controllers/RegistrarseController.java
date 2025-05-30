@@ -20,7 +20,6 @@ import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import java.sql.*;
-import java.util.HashSet;
 
 /**
  * FXML Controller class
@@ -56,6 +55,23 @@ public class RegistrarseController implements Initializable {
         if (selectedFile != null) {
             avatarImageView.setImage(new Image(selectedFile.toURI().toString()));
         }
+    }
+    
+    private boolean validarUsername(String username) {
+        return username.matches("[a-zA-Z0-9_-]{6,15}");
+    }
+
+    private boolean validarPassword(String password) {
+        return password.matches("(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[!@#$%&*()\\-+=]).{8,20}");
+    }
+
+    private boolean validarEmail(String email) {
+        return Pattern.matches("^\\S+@\\S+\\.\\S+$", email);
+    }
+
+    private boolean esMayorDeEdad(LocalDate fechaNacimiento) {
+        if (fechaNacimiento == null) return false;
+        return Period.between(fechaNacimiento, LocalDate.now()).getYears() >= 16;
     }
     
     public void Registrar() {
@@ -112,23 +128,6 @@ public class RegistrarseController implements Initializable {
             e.printStackTrace();
             }
         }
-    
-    private boolean validarUsername(String username) {
-        return username.matches("[a-zA-Z0-9_-]{6,15}");
-    }
-
-    private boolean validarPassword(String password) {
-        return password.matches("(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[!@#$%&*()\\-+=]).{8,20}");
-    }
-
-    private boolean validarEmail(String email) {
-        return Pattern.matches("^\\S+@\\S+\\.\\S+$", email);
-    }
-
-    private boolean esMayorDeEdad(LocalDate fechaNacimiento) {
-        if (fechaNacimiento == null) return false;
-        return Period.between(fechaNacimiento, LocalDate.now()).getYears() >= 16;
-    }
-    
+      
 }
 
