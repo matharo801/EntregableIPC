@@ -19,26 +19,16 @@ import java.util.ResourceBundle;
 
 public class PrincipalController implements Initializable {
 
-    @FXML
-    private Button btnIniciarSesion;
-
-    @FXML
-    private Button btnRealizarProblema;
-
-    @FXML
-    private Button btnModificarPerfil;
-
-    @FXML
-    private Button btnMostrarResultados;
 
     @FXML
     private Button btnCerrarSesion;
 
     private void cambiarEscena(String fxml) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/Principal.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(fxml));
         Parent root = loader.load();
         Stage stage = (Stage) btnCerrarSesion.getScene().getWindow();
         stage.setScene(new Scene(root));
+        stage.show();
     }
 
     @FXML
@@ -71,7 +61,7 @@ public class PrincipalController implements Initializable {
     @FXML
     private void mostrarResultados(ActionEvent event) {
         try {
-            cambiarEscena("/view/resultados.fxml");
+            cambiarEscena("/view/Resultados.fxml");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -80,7 +70,7 @@ public class PrincipalController implements Initializable {
     @FXML
     private void cerrarSesion(ActionEvent event) {
         try {
-            cambiarEscena("/view/Login.fxml"); // O volver a pantalla inicial
+            cambiarEscena("/view/Login.fxml"); // O cambiar por pantalla inicial
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -91,4 +81,3 @@ public class PrincipalController implements Initializable {
         // Inicialización si se requiere
     }
 }
-

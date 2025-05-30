@@ -21,9 +21,13 @@ public class LoginController {
 
     @FXML
     private Label lblMensaje;
+    
+    private Button iniciarSesion;
+    
+    private Button registrarse;
 
     @FXML
-    public void autenticar() {
+    public void iniciarSesion() {
         String user = txtUsuario.getText().trim();
         String pass = txtContrasena.getText();
 
@@ -34,7 +38,6 @@ public class LoginController {
 
         if (usuarioValido(user, pass)) {
             lblMensaje.setText("Acceso concedido.");
-            cargarPantallaPrincipal();
         } else {
             lblMensaje.setText("Usuario o contraseña incorrectos.");
         }
@@ -44,10 +47,10 @@ public class LoginController {
         // Simulación de validación con BD
         return user.equals("jpgarcia") && pass.equals("passPER21!");
     }
-
-    private void cargarPantallaPrincipal() {
+    
+    public void registrarse() {
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("/view/principal.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("/view/Registrarse.fxml"));
             Stage stage = (Stage) txtUsuario.getScene().getWindow();
             stage.setScene(new Scene(root));
         } catch (Exception e) {

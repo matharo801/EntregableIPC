@@ -20,6 +20,7 @@ import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import java.sql.*;
+import java.util.HashSet;
 
 /**
  * FXML Controller class
@@ -35,10 +36,7 @@ public class RegistrarseController implements Initializable {
     private ImageView avatarImageView;
     private Label statusLabel;
     
-    private final Pattern usernamePattern = Pattern.compile("^[a-zA-Z0-9_-]{6,15}$");
-    private final Pattern emailPattern = Pattern.compile("^[\\w.-]+@[\\w.-]+\\.[a-zA-Z]{2,}$");
-    private final Pattern passwordPattern = Pattern.compile("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[!@#$%&*()\\-+=])[A-Za-z\\d!@#$%&*()\\-+=]{8,20}$");
-    private final String defaultAvatarPath = "/Libraries/avatars/default.png";
+    private final String defaultAvatarPath = "/Libraries/IPC2025/avatars/default.png";
     
     private final String DB_URL = "jdbc:sqlite:/mnt/data/data.db";
     
@@ -47,7 +45,7 @@ public class RegistrarseController implements Initializable {
         avatarImageView.setImage(new Image(defaultAvatarPath));
     }    
     
-    private void handleChooseAvatar() {
+    private void insertarImagen() {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Seleccionar imagen de avatar");
         fileChooser.getExtensionFilters().addAll(
@@ -60,35 +58,39 @@ public class RegistrarseController implements Initializable {
         }
     }
     
-    @SuppressWarnings("CallToPrintStackTrace")
-    private void handleRegister() {
+    public void Registrar() {
         String username = usernameField.getText().trim();
-        String password = passwordField.getText();
+        String password = passwordField.getText().trim();
         String email = emailField.getText().trim();
         LocalDate birthDate = birthDatePicker.getValue();
-        String avatar = avatarImageView.getImage().getUrl(); // or null
+        String avatar = avatarImageView.getImage().getUrl();
 
-        if (!usernamePattern.matcher(username).matches()) {
-            statusLabel.setText("Nombre de usuario no válido.");
+        if (!validarUsername(username)) {
+            statusLabel.setText("Nombre de usuario no válido o ya existe.");
+            return;
         }
 
-        if (!emailPattern.matcher(email).matches()) {
-            statusLabel.setText("Correo no válido.");
-        }
-
-        if (!passwordPattern.matcher(password).matches()) {
+        if (!validarPassword(password)) {
             statusLabel.setText("Contraseña no válida.");
+            return;
         }
 
-        if (birthDate == null || Period.between(birthDate, LocalDate.now()).getYears() < 16) {
+        if (!validarEmail(email)) {
+            statusLabel.setText("Correo electrónico no válido.");
+            return;
+        }
+
+        if (!esMayorDeEdad(birthDate)) {
             statusLabel.setText("Debes tener al menos 16 años.");
+            return;
         }
 
-        try (Connection conn = DriverManager.getConnection(DB_URL)) {
+         try (Connection conn = DriverManager.getConnection(DB_URL)) {
             // Check if user exists
             PreparedStatement checkStmt = conn.prepareStatement("SELECT COUNT(*) FROM user WHERE username = ?");
             checkStmt.setString(1, username);
             ResultSet rs = checkStmt.executeQuery();
+
             if (rs.next() && rs.getInt(1) > 0) {
                 statusLabel.setText("El nombre de usuario ya está en uso.");
             }
@@ -108,6 +110,25 @@ public class RegistrarseController implements Initializable {
         } catch (SQLException e) {
             statusLabel.setText("Error en la base de datos.");
             e.printStackTrace();
+            }
         }
+    
+    private boolean validarUsername(String username) {
+        return username.matches("[a-zA-Z0-9_-]{6,15}");
     }
+
+    private boolean validarPassword(String password) {
+        return password.matches("(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[!@#$%&*()\\-+=]).{8,20}");
+    }
+
+    private boolean validarEmail(String email) {
+        return Pattern.matches("^\\S+@\\S+\\.\\S+$", email);
+    }
+
+    private boolean esMayorDeEdad(LocalDate fechaNacimiento) {
+        if (fechaNacimiento == null) return false;
+        return Period.between(fechaNacimiento, LocalDate.now()).getYears() >= 16;
+    }
+    
 }
+
