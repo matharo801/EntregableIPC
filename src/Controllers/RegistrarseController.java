@@ -22,6 +22,7 @@ import javafx.stage.Stage;
 import java.sql.*;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 
 /**
  * FXML Controller class
@@ -30,14 +31,24 @@ import javafx.fxml.FXML;
  */
 public class RegistrarseController implements Initializable {
 
+    @FXML
     private TextField usernameField;
+    @FXML
     private PasswordField passwordField;
+    @FXML
     private TextField emailField;
+    @FXML
     private DatePicker birthDatePicker;
+    @FXML
     private ImageView avatarImageView;
+    @FXML
     private Label statusLabel;
     
     private final String defaultAvatarPath = "/Libraries/IPC2025/avatars/default.png";
+    @FXML
+    private Button btnRegistrarse;
+    @FXML
+    private Button btnMenuPrincipal;
     
     
     @Override
@@ -59,7 +70,6 @@ public class RegistrarseController implements Initializable {
         }
     }
     
-    @FXML
     public void Registrar() {
     String username = usernameField.getText().trim();
     String password = passwordField.getText().trim();
@@ -146,7 +156,7 @@ public class RegistrarseController implements Initializable {
 }
 
     @FXML
-private void validarUsername(ActionEvent event) {
+    private void validarUsername(ActionEvent event) {
     String username = usernameField.getText();
     if (!esUsernameValido(username)) {
         System.out.println("Username inválido.");
@@ -155,8 +165,8 @@ private void validarUsername(ActionEvent event) {
     }
 }
 
-@FXML
-private void validarPassword(ActionEvent event) {
+    @FXML
+    private void validarPassword(ActionEvent event) {
     String password = passwordField.getText();
     if (!esPasswordValida(password)) {
         System.out.println("Password inválida.");
@@ -165,8 +175,8 @@ private void validarPassword(ActionEvent event) {
     }
 }
 
-@FXML
-private void validarEmail(ActionEvent event) {
+    @FXML
+    private void validarEmail(ActionEvent event) {
     String email = emailField.getText();
     if (!esEmailValido(email)) {
         System.out.println("Email inválido.");
@@ -175,8 +185,8 @@ private void validarEmail(ActionEvent event) {
     }
 }
 
-@FXML
-private void esMayorDeEdad(ActionEvent event) {
+    @FXML
+    private void esMayorDeEdad(ActionEvent event) {
     LocalDate fechaNacimiento = birthDatePicker.getValue();
     if (!esMayorDeEdadFunc(fechaNacimiento)) {
         System.out.println("Debe tener al menos 16 años.");
@@ -201,6 +211,16 @@ private boolean esMayorDeEdadFunc(LocalDate fechaNacimiento) {
     if (fechaNacimiento == null) return false;
     return Period.between(fechaNacimiento, LocalDate.now()).getYears() >= 16;
 }
+
+    @FXML
+    private void registrarUsuario(ActionEvent event) {
+        UtilidadesEscena.cambiarEscena("/view/Registrarse.fxml", event, "Registrarse");
+    }
+
+    @FXML
+    private void irAMenuPrincipal(ActionEvent event) {
+        UtilidadesEscena.cambiarEscena("/view/Principal.fxml", event, "Menu Principal");
+    }
 
     
 }

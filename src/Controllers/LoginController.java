@@ -71,14 +71,14 @@ public class LoginController {
     
     @FXML
     public void irAregistrarse(ActionEvent event) {
-        UtilidadesEscena.cambiarEscena("/view/Registrarse.fxml", event, "Formulario de Registro");
+        cambiarEscena( event, "/view/Registrarse.fxml");
     }
     
 
     @FXML
     private void irAlMenuPrincipal(ActionEvent event) 
     {
-        UtilidadesEscena.cambiarEscena("/view/Principal.fxml", event, "Menu Principal");
+        cambiarEscena( event, "/view/Principal.fxml");
     }
     
         
