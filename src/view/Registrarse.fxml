@@ -20,18 +20,24 @@
         <URL value="@/resources/estilos.css" />
     </stylesheets>
     <children>
+      <Label fx:id="statusLabel" layoutX="100.0" layoutY="50.0" text="Registra con tus datos necesarios" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="16.0" />
+         </font>
+      </Label>
         <!-- Título -->
-        <Label fx:id="statusLabel" alignment="TOP_LEFT" prefHeight="40.0" prefWidth="600.0" style="-fx-background-color: #f3ff00;" text="Registrarse" textFill="WHITE">
+        <Label alignment="TOP_LEFT" prefHeight="40.0" prefWidth="600.0" style="-fx-background-color: #f3ff00;" text="Registrarse" textFill="WHITE">
             <font>
                 <Font name="Arial Black" size="24.0" />
             </font>
         </Label>
 
         <!-- Formulario de registro -->
-        <GridPane hgap="10.0" layoutX="153.0" layoutY="80.0" prefHeight="250.0" prefWidth="300.0" vgap="15.0">
+        <GridPane hgap="10.0" layoutX="140.0" layoutY="100.0" prefHeight="271.0" prefWidth="414.0" vgap="15.0">
             <columnConstraints>
-                <ColumnConstraints prefWidth="120.0" />
-                <ColumnConstraints prefWidth="180.0" />
+                <ColumnConstraints prefWidth="150.0" />
+                <ColumnConstraints prefWidth="150.0" />
+            <ColumnConstraints minWidth="10.0" prefWidth="140.0" />
             </columnConstraints>
             <rowConstraints>
                 <RowConstraints prefHeight="30.0" />
@@ -54,9 +60,9 @@
                 <DatePicker fx:id="birthDatePicker" onAction="#esMayorDeEdad" GridPane.columnIndex="1" GridPane.rowIndex="3" />
 
                 <Label text="Avatar (opcional)" textFill="WHITE" GridPane.rowIndex="4" />
-                <ImageView fx:id="avatarImageView" fitHeight="100.0" fitWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                <ImageView fx:id="avatarImageView" fitHeight="100.0" fitWidth="100.0" GridPane.columnIndex="2" GridPane.rowIndex="4" />
 
-                <Button fx:id="avatarImageView" onAction="#insertarImagen" style="-fx-background-color: #f3ff00;" text="Seleccionar imagen" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                <Button fx:id="insertarImagen" onAction="#insertarImagen" style="-fx-background-color: #f3ff00;" text="Seleccionar imagen" GridPane.columnIndex="1" GridPane.rowIndex="4" />
             </children>
         </GridPane>
 
