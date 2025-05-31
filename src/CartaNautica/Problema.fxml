@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.text.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="CartaNautica.ProblemaController"
+      spacing="12" alignment="TOP_LEFT" style="-fx-padding:20;">
+
+    <!-- Declaración del ToggleGroup (no es un Node) -->
+    <fx:define>
+        <ToggleGroup fx:id="tg"/>
+    </fx:define>
+
+    <!-- Enunciado -->
+    <Label fx:id="enunciadoLbl" wrapText="true" style="-fx-font-size:18px;"/>
+
+    <!-- Opciones -->
+    <RadioButton fx:id="op1" toggleGroup="$tg" text="Opción 1"/>
+    <RadioButton fx:id="op2" toggleGroup="$tg" text="Opción 2"/>
+    <RadioButton fx:id="op3" toggleGroup="$tg" text="Opción 3"/>
+
+</VBox>

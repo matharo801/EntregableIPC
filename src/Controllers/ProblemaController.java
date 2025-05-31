@@ -4,79 +4,75 @@
  */
 package Controllers;
 
-import java.net.URL;
-import java.util.List;
-import java.util.ResourceBundle;
-import javafx.application.Platform;
+import model.Answer;
+import model.Problem;
+import Database.DBConnection;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToggleGroup;
 
-/**
- * Controlador de la pestaña «Problema».
- * Muestra un enunciado con tres opciones y marca correctas/incorrectas.
- */
+import java.net.URL;
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.ResourceBundle;
+
 public class ProblemaController implements Initializable {
 
-    /*───────────── FXML ─────────────*/
-    @FXML private Label enunciadoLbl;
-    @FXML private RadioButton op1, op2, op3;
-    @FXML private ToggleGroup tg;
+    @FXML private Label lblEnunciado;
+    @FXML private RadioButton rb1, rb2, rb3, rb4;
 
-    /*───────────── modelo sencillo ─────────────*/
-    private List<Problem> banco;
-    private Problem actual;
+    private ToggleGroup opcionesGroup = new ToggleGroup();
+    private List<Problem> problemas;
+    private int problemaActual = 0;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        rb1.setToggleGroup(opcionesGroup);
+        rb2.setToggleGroup(opcionesGroup);
+        rb3.setToggleGroup(opcionesGroup);
+        rb4.setToggleGroup(opcionesGroup);
 
-        // Banco mínimo de problemas embebido
-        banco = List.of(
-            new Problem(
-                "¿Cuántos metros hay en una milla náutica?",
-                List.of("1 000 m", "1 852 m", "1 609 m"), 1),
-            new Problem(
-                "Centroide de un triángulo equilátero:",
-                List.of("A ½ de la altura",
-                        "A ⅓ de la altura",
-                        "A ⅔ de la altura"), 1),
-            new Problem(
-                "Producto escalar de dos vectores perpendiculares es:",
-                List.of("0", "1", "El módulo del mayor"), 0)
-        );
-
-        mostrarSiguiente();
-
-        // Listener para marcar la opción elegida
-        tg.selectedToggleProperty().addListener((o, ov, nv) -> {
-            if (nv == null) return;
-
-            int idx = List.of(op1, op2, op3).indexOf(nv);
-            boolean acierto = idx == actual.correctIndex();
-            ((RadioButton) nv).setStyle(acierto ?
-                    "-fx-text-fill: green;" :
-                    "-fx-text-fill: red;");
-
-            // Espera 1,5 s y pasa al siguiente
-            new Thread(() -> {
-                try { Thread.sleep(1500); } catch (InterruptedException ex) {}
-                Platform.runLater(this::mostrarSiguiente);
-            }).start();
-        });
+        problemas = cargarProblemas();
+        if (!problemas.isEmpty()) {
+            mostrarProblema(problemas.get(problemaActual));
+        }
     }
 
-    /** Muestra un problema aleatorio en la interfaz */
-    private void mostrarSiguiente() {
-        actual = banco.get((int) (Math.random() * banco.size()));
+    private List<Problem> cargarProblemas() {
+        List<Problem> problemas = new ArrayList<>();
+        String query = "SELECT * FROM problem";
 
-        enunciadoLbl.setText(actual.text());
-        op1.setText(actual.options().get(0)); op1.setSelected(false); op1.setStyle("");
-        op2.setText(actual.options().get(1)); op2.setSelected(false); op2.setStyle("");
-        op3.setText(actual.options().get(2)); op3.setSelected(false); op3.setStyle("");
+        try (Connection conn = DBConnection.getConnection();
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(query)) {
+
+            while (rs.next()) {
+                String text = rs.getString("text");
+                Answer a1 = new Answer(rs.getString("answer1"), Boolean.parseBoolean(rs.getString("val1")));
+                Answer a2 = new Answer(rs.getString("answer2"), Boolean.parseBoolean(rs.getString("val2")));
+                Answer a3 = new Answer(rs.getString("answer3"), Boolean.parseBoolean(rs.getString("val3")));
+                Answer a4 = new Answer(rs.getString("answer4"), Boolean.parseBoolean(rs.getString("val4")));
+
+                Problem p = new Problem(text, a1, a2, a3, a4);
+                problemas.add(p);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return problemas;
     }
 
-    /*───────────── POJO mínimo ─────────────*/
-    private static record Problem(String text, List<String> options, int correctIndex) {}
+    private void mostrarProblema(Problem p) {
+        lblEnunciado.setText(p.getText());
+        List<Answer> respuestas = p.getAnswers();
+        rb1.setText(respuestas.get(0).getText());
+        rb2.setText(respuestas.get(1).getText());
+        rb3.setText(respuestas.get(2).getText());
+        rb4.setText(respuestas.get(3).getText());
+    }
 }

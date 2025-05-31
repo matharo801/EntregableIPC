@@ -1,29 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.ToggleGroup?>
-<?import javafx.scene.text.*?>
-<?import javafx.geometry.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.VBox?>
 
-<VBox xmlns="http://javafx.com/javafx"
-      xmlns:fx="http://javafx.com/fxml"
-      fx:controller="Controllers.ProblemaController"
-      spacing="12" alignment="TOP_LEFT" style="-fx-padding:20;">
+<VBox alignment="TOP_LEFT" spacing="12" style="-fx-padding:20;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.ProblemaController">
 
     <!-- Declaración del ToggleGroup (no es un Node) -->
     <fx:define>
-        <ToggleGroup fx:id="tg"/>
+        <ToggleGroup fx:id="tg" />
     </fx:define>
 
     <!-- Enunciado -->
-    <Label fx:id="enunciadoLbl" wrapText="true" style="-fx-font-size:18px;"/>
+    <Label fx:id="lblEnunciado" style="-fx-font-size:18px;" wrapText="true" />
 
     <!-- Opciones -->
-    <RadioButton fx:id="op1" toggleGroup="$tg" text="Opción 1"/>
-    <RadioButton fx:id="op2" toggleGroup="$tg" text="Opción 2"/>
-    <RadioButton fx:id="op3" toggleGroup="$tg" text="Opción 3"/>
+    <RadioButton fx:id="rb1" text="Opción 1">
+      <toggleGroup>
+         <ToggleGroup fx:id="tg" />
+      </toggleGroup></RadioButton>
+    <RadioButton fx:id="rb2" text="Opción 2" toggleGroup="$tg" />
+    <RadioButton fx:id="rb3" text="Opción 3" toggleGroup="$tg" />
+   <RadioButton fx:id="rb4" mnemonicParsing="false" text="Opcion 4" />
 
 </VBox>

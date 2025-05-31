@@ -32,7 +32,7 @@ public class LoginController {
  
 
     @FXML
-    public void iniciarSesion() {
+    public void iniciarSesion(ActionEvent event) {
         String user = txtUsuario.getText().trim();
         String pass = txtContraseña.getText();
 
@@ -46,6 +46,8 @@ public class LoginController {
         } else {
             lblMensaje.setText("Usuario o contraseña incorrectos.");
         }
+        
+        UtilidadesEscena.cambiarEscena("/CartaNautica/MainView.fxml", event, "Aplicacion general");
     }
 
     private boolean usuarioValido(String user) {

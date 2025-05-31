@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.Group?>
+<?import javafx.scene.control.ScrollPane?>
+
+<ScrollPane fx:id="scrollPane"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="CartaNautica.Carta_nauticaController">
+
+    <!-- Contenido del ScrollPane -->
+    <content>
+        <AnchorPane fx:id="anchorMapa">
+            <children>
+
+                <!-- Imagen de la carta sin reescalado interno -->
+                <ImageView fx:id="imageCarta"
+                           preserveRatio="true" />
+
+                <!-- Capa de anotaciones y herramientas -->
+                <Group fx:id="groupCarta" />
+
+            </children>
+        </AnchorPane>
+    </content>
+</ScrollPane>

@@ -69,7 +69,7 @@
               <!-- Botones inferiores -->
         <HBox layoutX="308.0" layoutY="350.0" prefHeight="40.0" prefWidth="258.0" spacing="20.0">
             <children>
-                <Button fx:id="btnRegistrarse" mnemonicParsing="false" onAction="#registrarUsuario" style="-fx-background-color: #f3ff00;" text="Actualizar" />
+                <Button fx:id="btnRegistrarse" mnemonicParsing="false" onAction="#actualizar" style="-fx-background-color: #f3ff00;" text="Actualizar" />
                 <Button fx:id="btnMenuPrincipal" mnemonicParsing="false" onAction="#irAMenuPrincipal" text="Ir a MenuPrincipal">
                     <HBox.margin>
                         <Insets bottom="10.0" left="50.0" top="30.0" />
