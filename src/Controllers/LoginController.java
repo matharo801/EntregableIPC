@@ -2,21 +2,17 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/javafx/FXMLController.java to edit this template
  */
-package controllers;
-
-import Database.DBConnection;
-import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.control.*;
-import javafx.stage.Stage;
+package Controllers;
 
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.scene.control.*;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import model.User;
 
 public class LoginController {
 
@@ -24,94 +20,66 @@ public class LoginController {
     private TextField txtUsuario;
 
     @FXML
-    private PasswordField txtContrasena;
-
-    @FXML
     private Label lblMensaje;
-
+    @FXML
+    private PasswordField txtContraseña;
     @FXML
     private Button iniciarSesion;
-
     @FXML
-    private Button registrarse;
+    private Button btnIrMenuPrincipal;
+    @FXML
+    private Button btnRegistrarse;
+ 
 
     @FXML
     public void iniciarSesion() {
         String user = txtUsuario.getText().trim();
-        String pass = txtContrasena.getText();
+        String pass = txtContraseña.getText();
 
         if (user.isEmpty() || pass.isEmpty()) {
-            mostrarMensaje("Completa todos los campos.");
+            lblMensaje.setText("Completa todos los campos.");
             return;
         }
 
-        if (usuarioValido(user, pass)) {
-            mostrarMensaje("Acceso concedido.");
-            cargarVentanaMain();  // Ir a Main.fxml
+        if (usuarioValido(user) && contraseñaValido(pass)) {
+            lblMensaje.setText("Acceso concedido.");
         } else {
-            mostrarMensaje("Usuario o contraseña incorrectos.");
+            lblMensaje.setText("Usuario o contraseña incorrectos.");
         }
     }
 
-    @FXML
-    public void registrarse() {
-        try {
-            Parent root = FXMLLoader.load(getClass().getResource("/views/Registrarse.fxml"));
-            Stage stage = (Stage) registrarse.getScene().getWindow();
-            stage.setScene(new Scene(root));
-            stage.setTitle("Registro de Usuario");
-        } catch (IOException e) {
-            e.printStackTrace();
-            mostrarMensaje("Error al cargar la ventana de registro.");
-        }
+    private boolean usuarioValido(String user) {
+        // Simulación de validación con BD
+        return User.checkNickName(user);
     }
-
    
-    private boolean usuarioValido(String user, String pass) {
-        String query = "SELECT * FROM usuarios WHERE nombre_usuario = ? AND contrasena = ?";
-
-        try (Connection conn = DBConnection.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(query)) {
-
-            stmt.setString(1, user);
-            stmt.setString(2, pass);
-
-            ResultSet rs = stmt.executeQuery();
-            return rs.next(); // true si hay coincidencia
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-            showAlert("Error de conexión", "No se pudo acceder a la base de datos.");
-            return false;
-        }
+    private boolean contraseñaValido(String password){
+        return User.checkPassword(password);
     }
-
-    /**
-     * Carga la pantalla principal de la aplicación (Main.fxml)
-     */
-    @FXML
-    private void cargarVentanaMain() {
+    
+    private void cambiarEscena(ActionEvent event, String rutaFXML) {
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("/view/Main.fxml"));
-            Stage stage = (Stage) iniciarSesion.getScene().getWindow();
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(rutaFXML));
+            Parent root = loader.load();
+            Stage stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
             stage.setScene(new Scene(root));
-            stage.setTitle("Aplicación Principal");
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();
-            mostrarMensaje("No se pudo cargar la aplicación general.");
         }
     }
-
-    private void mostrarMensaje(String mensaje) {
-        lblMensaje.setText(mensaje);
+    
+    @FXML
+    public void irAregistrarse(ActionEvent event) {
+        UtilidadesEscena.cambiarEscena("/view/Registrarse.fxml", event, "Formulario de Registro");
     }
+    
 
-    private void showAlert(String titulo, String contenido) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle(titulo);
-        alert.setHeaderText(null);
-        alert.setContentText(contenido);
-        alert.showAndWait();
+    @FXML
+    private void irAlMenuPrincipal(ActionEvent event) 
+    {
+        UtilidadesEscena.cambiarEscena("/view/Principal.fxml", event, "Menu Principal");
     }
+    
+        
 }

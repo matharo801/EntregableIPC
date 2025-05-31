@@ -4,93 +4,79 @@
  */
 package Controllers;
 
+import java.net.URL;
+import java.util.List;
+import java.util.ResourceBundle;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.*;
-import javafx.scene.layout.VBox;
+import javafx.scene.control.Label;
+import javafx.scene.control.RadioButton;
+import javafx.scene.control.ToggleGroup;
 
-import java.net.URL;
-import java.util.*;
-
+/**
+ * Controlador de la pestaña «Problema».
+ * Muestra un enunciado con tres opciones y marca correctas/incorrectas.
+ */
 public class ProblemaController implements Initializable {
 
-    @FXML
-    private Label lblEnunciado;
+    /*───────────── FXML ─────────────*/
+    @FXML private Label enunciadoLbl;
+    @FXML private RadioButton op1, op2, op3;
+    @FXML private ToggleGroup tg;
 
-    @FXML
-    private VBox vboxOpciones;
-
-    @FXML
-    private Button btnVerificar;
-
-    @FXML
-    private Label lblResultado;
-
-    private ToggleGroup opcionesGroup = new ToggleGroup();
-
-    // Simulación de datos (normalmente vendrían de una base de datos)
-    private static class Problema {
-        String enunciado;
-        String respuestaCorrecta;
-        List<String> opciones;
-
-        Problema(String enunciado, String correcta, List<String> opciones) {
-            this.enunciado = enunciado;
-            this.respuestaCorrecta = correcta;
-            this.opciones = opciones;
-        }
-    }
-
-    private Problema problemaActual;
+    /*───────────── modelo sencillo ─────────────*/
+    private List<Problem> banco;
+    private Problem actual;
 
     @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        cargarProblemaAleatorio();
-    }
+    public void initialize(URL url, ResourceBundle rb) {
 
-    private void cargarProblemaAleatorio() {
-        // Datos de ejemplo
-        List<String> opciones = Arrays.asList("10°", "20°", "30°", "40°");
-        problemaActual = new Problema(
-            "¿Cuál es la corrección total si la declinación es 10°E y el desvío es 20°W?",
-            "10°",
-            opciones
+        // Banco mínimo de problemas embebido
+        banco = List.of(
+            new Problem(
+                "¿Cuántos metros hay en una milla náutica?",
+                List.of("1 000 m", "1 852 m", "1 609 m"), 1),
+            new Problem(
+                "Centroide de un triángulo equilátero:",
+                List.of("A ½ de la altura",
+                        "A ⅓ de la altura",
+                        "A ⅔ de la altura"), 1),
+            new Problem(
+                "Producto escalar de dos vectores perpendiculares es:",
+                List.of("0", "1", "El módulo del mayor"), 0)
         );
 
-        lblEnunciado.setText(problemaActual.enunciado);
-        mostrarOpciones(problemaActual.opciones);
-        lblResultado.setText(""); // Limpiar resultado
+        mostrarSiguiente();
+
+        // Listener para marcar la opción elegida
+        tg.selectedToggleProperty().addListener((o, ov, nv) -> {
+            if (nv == null) return;
+
+            int idx = List.of(op1, op2, op3).indexOf(nv);
+            boolean acierto = idx == actual.correctIndex();
+            ((RadioButton) nv).setStyle(acierto ?
+                    "-fx-text-fill: green;" :
+                    "-fx-text-fill: red;");
+
+            // Espera 1,5 s y pasa al siguiente
+            new Thread(() -> {
+                try { Thread.sleep(1500); } catch (InterruptedException ex) {}
+                Platform.runLater(this::mostrarSiguiente);
+            }).start();
+        });
     }
 
-    private void mostrarOpciones(List<String> opciones) {
-        vboxOpciones.getChildren().clear();
-        opcionesGroup.getToggles().clear();
+    /** Muestra un problema aleatorio en la interfaz */
+    private void mostrarSiguiente() {
+        actual = banco.get((int) (Math.random() * banco.size()));
 
-        List<String> opcionesMezcladas = new ArrayList<>(opciones);
-        Collections.shuffle(opcionesMezcladas);
-
-        for (String texto : opcionesMezcladas) {
-            RadioButton rb = new RadioButton(texto);
-            rb.setToggleGroup(opcionesGroup);
-            vboxOpciones.getChildren().add(rb);
-        }
+        enunciadoLbl.setText(actual.text());
+        op1.setText(actual.options().get(0)); op1.setSelected(false); op1.setStyle("");
+        op2.setText(actual.options().get(1)); op2.setSelected(false); op2.setStyle("");
+        op3.setText(actual.options().get(2)); op3.setSelected(false); op3.setStyle("");
     }
 
-    @FXML
-    private void verificarRespuesta() {
-        RadioButton seleccionada = (RadioButton) opcionesGroup.getSelectedToggle();
-
-        if (seleccionada == null) {
-            lblResultado.setText("Seleccione una respuesta.");
-            return;
-        }
-
-        String respuesta = seleccionada.getText();
-        if (respuesta.equals(problemaActual.respuestaCorrecta)) {
-            lblResultado.setText("¡Correcto!");
-        } else {
-            lblResultado.setText("Incorrecto. La respuesta correcta es: " + problemaActual.respuestaCorrecta);
-        }
-    }
+    /*───────────── POJO mínimo ─────────────*/
+    private static record Problem(String text, List<String> options, int correctIndex) {}
 }
-

@@ -2,6 +2,10 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/javafx/FXMLController.java to edit this template
  */
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/javafx/FXMLController.java to edit this template
+ */
 package Controllers;
 
 import javafx.fxml.FXML;
@@ -13,28 +17,55 @@ import javafx.stage.FileChooser;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.sql.*;
 import java.time.LocalDate;
 import java.util.ResourceBundle;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
 
 public class EditarPerfilController implements Initializable {
 
-    @FXML private Label usernameLabel;
-    @FXML private PasswordField passwordField;
-    @FXML private TextField emailField;
-    @FXML private DatePicker birthDatePicker;
-    @FXML private ImageView avatarImageView;
-    @FXML private Label statusLabel;
+    @FXML
+    private Label usernameLabel;
+    @FXML
+    private PasswordField passwordField;
+    @FXML
+    private TextField emailField;
+    @FXML
+    private DatePicker birthDatePicker;
+    @FXML
+    private ImageView avatarImageView;
+    @FXML
+    private Label statusLabel;
 
     private final String DB_URL = "jdbc:sqlite:data.db";
     private String currentNickName; // Este debería establecerse tras login
     private File selectedAvatarFile;
+    @FXML
+    private Button btnIrMenuPrincipal;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        loadUserProfile();
+        //loadUserProfile();
+    }
+    
+    private void cambiarEscena(ActionEvent event, String rutaFXML) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(rutaFXML));
+            Parent root = loader.load();
+            Stage stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private void loadUserProfile() {
@@ -60,7 +91,6 @@ public class EditarPerfilController implements Initializable {
         }
     }
 
-    @FXML
     private void handleChangeAvatar() {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Seleccionar Avatar");
@@ -73,7 +103,6 @@ public class EditarPerfilController implements Initializable {
         }
     }
 
-    @FXML
     @SuppressWarnings("CallToPrintStackTrace")
     private void handleUpdateProfile() {
         String password = passwordField.getText();
@@ -123,6 +152,18 @@ public class EditarPerfilController implements Initializable {
                password.matches(".*[a-z].*") &&
                password.matches(".*\\d.*") &&
                password.matches(".*[!@#$%&*()\\-+=].*");
+    }
+    
+    @FXML 
+    private void cancelarEditarPerfil(ActionEvent event){
+         Stage stage = (Stage)((Node) event.getSource()).getScene().getWindow();
+         stage.close();
+    }
+    
+    @FXML
+    private void irAlMenuPrincipal(ActionEvent event) 
+    {
+        cambiarEscena(event, "/view/Principal.fxml");
     }
 }
 

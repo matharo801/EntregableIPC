@@ -13,7 +13,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #2e2e2e;" styleClass="mainFxmlClass" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/23.0.1" fx:controller="Controllers.EditarPerfilController">
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #2e2e2e;" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.EditarPerfilController">
     <stylesheets>
         <URL value="@/resources/estilos.css" />
     </stylesheets>
@@ -23,7 +23,7 @@
             <Font name="Berlin Sans FB Demi Bold" size="24.0" />
          </font>
       </Label>
-      <Text fill="WHITE" layoutY="70.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Modifica los datos deseados ">
+      <Text fx:id="statusLabel" fill="WHITE" layoutY="70.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Modifica los datos deseados ">
          <font>
             <Font name="Arial Nova Bold" size="18.0" />
          </font>
@@ -47,17 +47,18 @@
             <Label text="Fecha de nacimiento" textFill="WHITE" GridPane.rowIndex="3" />
             <Label text="Imagen(opcional)" textFill="WHITE" GridPane.rowIndex="4" />
             <TextField GridPane.columnIndex="1" />
-            <PasswordField GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <PasswordField onAction="#isValidPassword" GridPane.columnIndex="1" GridPane.rowIndex="1" />
             <TextField GridPane.columnIndex="1" GridPane.rowIndex="2" />
             <TextField GridPane.columnIndex="1" GridPane.rowIndex="3" />
-            <Button mnemonicParsing="false" prefHeight="500.0" prefWidth="250.0" text="Insertar imagen" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+            <Button mnemonicParsing="false" onAction="#handleChangeAvatar" prefHeight="500.0" prefWidth="250.0" text="Insertar imagen" GridPane.columnIndex="1" GridPane.rowIndex="4" />
          </children>
       </GridPane>
       <HBox layoutX="266.0" layoutY="331.0" prefHeight="47.0" prefWidth="157.0" spacing="15.0">
          <children>
-            <Button mnemonicParsing="false" text="Actualizar" />
+            <Button mnemonicParsing="false" onAction="#handleUpdateProfile" text="Actualizar" />
             <Button mnemonicParsing="false" text="Cancelar" />
          </children>
       </HBox>
+      <Button fx:id="btnIrMenuPrincipal" layoutX="468.0" layoutY="355.0" mnemonicParsing="false" onAction="#irAlMenuPrincipal" text="Ir al Menu Principal" />
    </children>
 </AnchorPane>
