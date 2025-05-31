@@ -41,7 +41,7 @@ public class RegistrarseController implements Initializable {
     @FXML
     private Button btnMenuPrincipal;
 
-    private final String defaultAvatarPath = "/Libraries/IPC2025/avatars/default.png";
+    private final String defaultAvatarPath = "/Libraries/IPC2025.jar/avatars/default.png";
     private File imagenSeleccionada;
 
     @Override
